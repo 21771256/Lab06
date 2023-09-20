@@ -44,13 +44,53 @@ Employees.findOne({ include: [Companies] }).then(employee => {
   });
 })
 
+
+
 // Exercise 3
+// Find the name of the company that "Peter Rabbit" works for by searching for the name 
+// "PeterRabbit" in the employees table
 // *** TODO: Insert code here ***
+.then(() => Employees.findOne( { where: {name: 'Peter Rabbit'}, include: [Companies]}))
+.then(employee => {
+  console.log(employee.company.dataValues);
+})
+
+
 
 // Exercise 4
+// Find the company with the highest profit and list its employees.
 // *** TODO: Insert code here ***
+.then(() => Companies.findOne( { order: [['profit', 'DESC']], 
+include:[Employees] }))
+.then(company => {
+  company.employees.forEach(employee => {
+    console.log(employee.dataValues);
+  });
+})
 
-// Exercise 5
+
+
+// Exercise 
+// Try inser�ng a new employee into the employees table.
 // *** TODO: Insert code here ***  
+
+//.then(() => Employees.create({
+//  name: 'Peter Junior',
+//  age: 2,
+//  companyId: 1
+//}))
+.then(()=>Companies.findOne({id:1}))
+.then(c=>{
+  console.log("Inserting new employee to company ID="+c.id);
+  const e3 = Employees.create({
+    name: 'Peter Junior',
+    age: 2,
+    companyId: c.id
+  })
+  return e3
+})
+
+
+
 
 .catch(console.error).then(() => db.close());
